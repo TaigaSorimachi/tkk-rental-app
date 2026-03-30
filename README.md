@@ -1,36 +1,178 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TKK Rental Platform
 
-## Getting Started
+東京機材工業株式会社向け建機レンタル基幹システムのデモアプリケーション
 
-First, run the development server:
+## デモサイト
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+**https://tkk-rental-app.vercel.app**
+
+## システム概要
+
+### 対象企業
+**東京機材工業株式会社** - 建設機械・資機材のレンタル・設計製作・販売
+
+### 目的
+建機レンタル業務のデジタル化による業務効率化・売上最大化・経営可視化
+
+### システム構成
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    TKK Rental Platform                       │
+│                                                             │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────────┐   │
+│  │ ① 受発注     │  │ ② 在庫・物流 │  │ ③ 営業支援/CRM  │   │
+│  │   ポータル   │  │   最適化     │  │                  │   │
+│  └──────┬───────┘  └──────┬───────┘  └────────┬─────────┘   │
+│         │                │                    │             │
+│         └────────┬───────┴────────────────────┘             │
+│                  │                                          │
+│         ┌────────▼─────────┐                                │
+│         │ ④ 経営ダッシュ   │                                │
+│         │   ボード / BI    │                                │
+│         └──────────────────┘                                │
+└─────────────────────────────────────────────────────────────┘
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 機能一覧
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| モジュール | 画面 | 機能 |
+|-----------|------|------|
+| **経営ダッシュボード** | `/dashboard` | KPI表示、売上推移チャート、稼働率分析、アラート一覧 |
+| **機材管理** | `/equipment` | 機材一覧（検索・フィルタ）、在庫状況マトリクス |
+| **受発注管理** | `/orders` | 注文一覧、新規注文作成（3ステップ）、返却管理 |
+| **物流管理** | `/logistics` | 配送スケジュール（週間カレンダー）、拠点間融通提案 |
+| **顧客管理（CRM）** | `/customers` | 顧客一覧、顧客詳細（取引履歴・レコメンド） |
+| **営業支援** | `/sales` | 営業パイプライン（カンバン）、失注分析 |
+| **見積作成** | `/quotes/new` | 見積書作成、プレビュー |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 技術スタック
 
-## Learn More
+| 項目 | 技術 |
+|------|------|
+| フレームワーク | Next.js 14 (App Router) |
+| 言語 | TypeScript |
+| UIライブラリ | shadcn/ui + Tailwind CSS |
+| チャート | Recharts |
+| アイコン | Lucide React |
+| 状態管理 | React useState / useContext |
+| データ | モックデータ（JSON）|
+| デプロイ | Vercel |
 
-To learn more about Next.js, take a look at the following resources:
+## ブランドカラー
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+東京機材工業のコーポレートカラーに準拠：
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| カラー | コード | 用途 |
+|--------|--------|------|
+| Primary | `#1B4D8E` | メインカラー（紺青） |
+| Secondary | `#E63E1E` | アクセント（赤） |
+| Background | `#F5F5F0` | 背景 |
+| Success | `#059669` | 成功・稼働率高 |
+| Warning | `#D97706` | 警告・稼働率中 |
+| Danger | `#DC2626` | エラー・稼働率低 |
 
-## Deploy on Vercel
+## 画面構成
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+📊 ダッシュボード（ホーム）
+📦 機材管理
+  ├ 機材一覧
+  └ 在庫状況
+📋 受発注
+  ├ 注文一覧
+  ├ 新規注文
+  └ 返却管理
+🚛 物流
+  ├ 配送スケジュール
+  └ 拠点間融通
+👥 顧客管理（CRM）
+  └ 顧客一覧 → 顧客詳細
+📈 営業支援
+  ├ 見積作成
+  ├ 営業パイプライン
+  └ 失注分析
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 機材カテゴリ
+
+東京機材工業の実際の商品ラインナップを使用：
+
+- **タンク・水処理**: 水槽タンク、濁水処理装置、フィルタープレス
+- **圧気関連**: オイルフリーコンプレッサー、レシーバータンク
+- **基礎工事**: パワージャッキ、ハンマーグラブ、スライムキャッチャー
+- **地盤改良**: ミキシングプラント、サイクロンスクリーン、サンドコレクター
+- **トンネル・搬送**: モグラック、連続ベルトコンベヤ
+- **耐震補強**: 油圧ジャッキ、油圧ポンプユニット
+- **環境・プラント**: 発電機
+- **汎用機材**: 敷鉄板、配管材、タイヤ洗浄機
+
+## 拠点
+
+| 拠点 | 所在地 |
+|------|--------|
+| 本社（東京） | 東京都中央区日本橋 |
+| 千葉機材センター | 千葉県市原市 |
+| 名古屋機材センター | 愛知県名古屋市 |
+| 大阪機材センター | 大阪府大阪市 |
+| 北海道機材センター | 北海道札幌市 |
+
+## ローカル開発
+
+```bash
+# 依存関係のインストール
+npm install
+
+# 開発サーバー起動
+npm run dev
+
+# ビルド
+npm run build
+
+# 本番サーバー起動
+npm start
+```
+
+## ディレクトリ構成
+
+```
+src/
+├── app/
+│   ├── (main)/           # メインレイアウト適用ルート
+│   │   ├── dashboard/
+│   │   ├── equipment/
+│   │   ├── orders/
+│   │   ├── logistics/
+│   │   ├── customers/
+│   │   ├── sales/
+│   │   └── quotes/
+│   ├── globals.css
+│   ├── layout.tsx
+│   └── page.tsx
+├── components/
+│   ├── dashboard/        # ダッシュボード用コンポーネント
+│   ├── layout/           # レイアウトコンポーネント
+│   └── ui/               # shadcn/ui + カスタムUI
+├── data/                 # モックデータ
+│   ├── customers.ts
+│   ├── dashboard.ts
+│   ├── deals.ts
+│   ├── deliveries.ts
+│   ├── equipment.ts
+│   ├── locations.ts
+│   ├── orders.ts
+│   └── quotes.ts
+└── lib/
+    └── utils.ts
+```
+
+## 注意事項
+
+- 本システムはデモ用フロントエンドアプリケーションです
+- すべてのデータはモックデータを使用しています
+- 認証機能は実装されていません
+- PDF出力等の一部機能はボタンのみの配置です
+
+## ライセンス
+
+MIT
