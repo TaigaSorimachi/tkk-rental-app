@@ -13,22 +13,22 @@ const getBarColor = (rate: number) => {
 export function UtilizationChart() {
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="text-lg font-semibold">機材カテゴリ別稼働率</CardTitle>
+      <CardHeader className="pb-3 sm:pb-6">
+        <CardTitle className="text-base sm:text-lg font-semibold">機材カテゴリ別稼働率</CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="h-[300px]">
+      <CardContent className="px-3 sm:px-6">
+        <div className="h-[250px] sm:h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={categoryUtilizationData}
               layout="vertical"
-              margin={{ top: 5, right: 30, left: 80, bottom: 5 }}
+              margin={{ top: 5, right: 20, left: 60, bottom: 5 }}
             >
               <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" horizontal={true} vertical={false} />
               <XAxis
                 type="number"
                 domain={[0, 100]}
-                tick={{ fontSize: 12 }}
+                tick={{ fontSize: 10 }}
                 tickLine={false}
                 axisLine={{ stroke: "#E5E7EB" }}
                 tickFormatter={(value) => `${value}%`}
@@ -36,10 +36,10 @@ export function UtilizationChart() {
               <YAxis
                 type="category"
                 dataKey="category"
-                tick={{ fontSize: 12 }}
+                tick={{ fontSize: 10 }}
                 tickLine={false}
                 axisLine={false}
-                width={80}
+                width={60}
               />
               <Tooltip
                 formatter={(value) => [`${value}%`, "稼働率"]}
@@ -48,6 +48,7 @@ export function UtilizationChart() {
                   border: "1px solid #E5E7EB",
                   borderRadius: "8px",
                   boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                  fontSize: "12px",
                 }}
               />
               <Bar dataKey="rate" radius={[0, 4, 4, 0]}>

@@ -9,13 +9,13 @@ export function RevenueChart() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="text-lg font-semibold">月別売上推移</CardTitle>
+      <CardHeader className="pb-3 sm:pb-6">
+        <CardTitle className="text-base sm:text-lg font-semibold">月別売上推移</CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="h-[300px]">
+      <CardContent className="px-3 sm:px-6">
+        <div className="h-[250px] sm:h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={monthlyRevenueData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+            <AreaChart data={monthlyRevenueData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
               <defs>
                 <linearGradient id="colorRental" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#1B4D8E" stopOpacity={0.8} />
@@ -29,15 +29,16 @@ export function RevenueChart() {
               <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
               <XAxis
                 dataKey="month"
-                tick={{ fontSize: 12 }}
+                tick={{ fontSize: 10 }}
                 tickLine={false}
                 axisLine={{ stroke: "#E5E7EB" }}
               />
               <YAxis
                 tickFormatter={formatYAxis}
-                tick={{ fontSize: 12 }}
+                tick={{ fontSize: 10 }}
                 tickLine={false}
                 axisLine={{ stroke: "#E5E7EB" }}
+                width={35}
               />
               <Tooltip
                 formatter={(value) => `¥${(Number(value) / 1000000).toFixed(1)}M`}
@@ -46,9 +47,10 @@ export function RevenueChart() {
                   border: "1px solid #E5E7EB",
                   borderRadius: "8px",
                   boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                  fontSize: "12px",
                 }}
               />
-              <Legend />
+              <Legend wrapperStyle={{ fontSize: "12px" }} />
               <Area
                 type="monotone"
                 dataKey="rental"

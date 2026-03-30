@@ -20,20 +20,20 @@ const statusConfig = {
 
 export default function SchedulePage() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Weekly Calendar View */}
       <Card>
-        <CardHeader>
-          <CardTitle>配送カレンダー（週表示）</CardTitle>
+        <CardHeader className="pb-3 sm:pb-6">
+          <CardTitle className="text-lg sm:text-xl">配送カレンダー（週表示）</CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="overflow-x-auto">
-            <Table>
+        <CardContent className="px-3 sm:px-6">
+          <div className="overflow-x-auto -mx-3 px-3 sm:mx-0 sm:px-0">
+            <Table className="min-w-[500px]">
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[180px]">拠点</TableHead>
+                  <TableHead className="w-[100px] sm:w-[180px] text-xs sm:text-sm">拠点</TableHead>
                   {days.map((day) => (
-                    <TableHead key={day} className="text-center min-w-[80px]">
+                    <TableHead key={day} className="text-center min-w-[50px] sm:min-w-[80px] text-xs sm:text-sm">
                       {day}
                     </TableHead>
                   ))}
@@ -46,18 +46,18 @@ export default function SchedulePage() {
 
                   return (
                     <TableRow key={loc.id}>
-                      <TableCell className="font-medium">{loc.name}</TableCell>
+                      <TableCell className="font-medium text-xs sm:text-sm whitespace-nowrap">{loc.name}</TableCell>
                       {dayKeys.map((dayKey) => {
                         const count = summary[dayKey];
                         return (
-                          <TableCell key={dayKey} className="text-center">
+                          <TableCell key={dayKey} className="text-center p-1 sm:p-2">
                             {count > 0 ? (
-                              <div className="flex items-center justify-center gap-1">
-                                <Truck className="h-4 w-4 text-[hsl(var(--primary))]" />
-                                <span className="text-sm font-medium">×{count}</span>
+                              <div className="flex items-center justify-center gap-0.5 sm:gap-1">
+                                <Truck className="h-3 w-3 sm:h-4 sm:w-4 text-[hsl(var(--primary))]" />
+                                <span className="text-xs sm:text-sm font-medium">×{count}</span>
                               </div>
                             ) : (
-                              <span className="text-muted-foreground">-</span>
+                              <span className="text-muted-foreground text-xs sm:text-sm">-</span>
                             )}
                           </TableCell>
                         );
@@ -68,47 +68,48 @@ export default function SchedulePage() {
               </TableBody>
             </Table>
           </div>
+          <p className="text-xs text-muted-foreground mt-3 sm:hidden">← 横スクロールで全日程を表示</p>
         </CardContent>
       </Card>
 
       {/* Delivery Details */}
       <Card>
-        <CardHeader>
-          <CardTitle>配送詳細</CardTitle>
+        <CardHeader className="pb-3 sm:pb-6">
+          <CardTitle className="text-lg sm:text-xl">配送詳細</CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
+        <CardContent className="px-3 sm:px-6">
+          <div className="space-y-3 sm:space-y-4">
             {deliveries.slice(0, 8).map((delivery) => (
               <div
                 key={delivery.id}
-                className="rounded-lg border p-4 transition-colors hover:bg-muted/50"
+                className="rounded-lg border p-3 sm:p-4 transition-colors hover:bg-muted/50"
               >
-                <div className="flex items-start justify-between">
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2">
-                      <span className="font-semibold">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                  <div className="space-y-1 min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="font-semibold text-sm sm:text-base">
                         {delivery.scheduledDate} ({delivery.scheduledTime})
                       </span>
                       <Badge
                         className={cn(
                           statusConfig[delivery.status].color,
-                          "text-xs"
+                          "text-[10px] sm:text-xs"
                         )}
                       >
                         {statusConfig[delivery.status].label}
                       </Badge>
                     </div>
-                    <p className="text-sm">
+                    <p className="text-xs sm:text-sm truncate">
                       {delivery.fromLocationName} → {delivery.customerName} {delivery.siteName}
                     </p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-xs sm:text-sm text-muted-foreground line-clamp-1">
                       機材: {delivery.equipmentList.join(", ")}
                     </p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-xs sm:text-sm text-muted-foreground">
                       ドライバー: {delivery.driver}
                     </p>
                   </div>
-                  <div className="flex flex-col gap-1">
+                  <div className="flex flex-row sm:flex-col gap-1 flex-wrap sm:flex-nowrap">
                     {["scheduled", "dispatched", "in_transit", "delivered"].map((s, index) => {
                       const isActive = ["scheduled", "dispatched", "in_transit", "delivered", "completed"].indexOf(delivery.status) >= index;
                       return (
@@ -116,7 +117,7 @@ export default function SchedulePage() {
                           key={s}
                           variant={isActive ? "default" : "outline"}
                           className={cn(
-                            "text-xs",
+                            "text-[10px] sm:text-xs",
                             isActive ? "bg-[hsl(var(--primary))]" : ""
                           )}
                         >
@@ -133,7 +134,7 @@ export default function SchedulePage() {
                   </div>
                 </div>
                 {delivery.notes && (
-                  <p className="mt-2 text-sm text-muted-foreground bg-muted rounded p-2">
+                  <p className="mt-2 text-xs sm:text-sm text-muted-foreground bg-muted rounded p-2">
                     備考: {delivery.notes}
                   </p>
                 )}

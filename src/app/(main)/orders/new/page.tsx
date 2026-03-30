@@ -61,25 +61,25 @@ export default function NewOrderPage() {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Step Indicator */}
-      <div className="flex items-center justify-center gap-4">
+      <div className="flex items-center justify-center gap-2 sm:gap-4">
         {[1, 2, 3].map((s) => (
-          <div key={s} className="flex items-center gap-2">
+          <div key={s} className="flex items-center gap-1 sm:gap-2">
             <div
               className={cn(
-                "flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium",
+                "flex h-6 w-6 sm:h-8 sm:w-8 items-center justify-center rounded-full text-xs sm:text-sm font-medium",
                 step >= s
                   ? "bg-[hsl(var(--primary))] text-white"
                   : "bg-muted text-muted-foreground"
               )}
             >
-              {step > s ? <Check className="h-4 w-4" /> : s}
+              {step > s ? <Check className="h-3 w-3 sm:h-4 sm:w-4" /> : s}
             </div>
-            <span className={cn("text-sm", step >= s ? "font-medium" : "text-muted-foreground")}>
+            <span className={cn("text-xs sm:text-sm hidden sm:inline", step >= s ? "font-medium" : "text-muted-foreground")}>
               {s === 1 ? "顧客選択" : s === 2 ? "機材選択" : "確認・送信"}
             </span>
-            {s < 3 && <div className="w-12 h-px bg-border" />}
+            {s < 3 && <div className="w-6 sm:w-12 h-px bg-border" />}
           </div>
         ))}
       </div>
@@ -87,10 +87,10 @@ export default function NewOrderPage() {
       {/* Step 1: Customer Selection */}
       {step === 1 && (
         <Card>
-          <CardHeader>
-            <CardTitle>Step 1: 顧客・現場情報</CardTitle>
+          <CardHeader className="pb-3 sm:pb-6">
+            <CardTitle className="text-base sm:text-xl">Step 1: 顧客・現場情報</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 px-3 sm:px-6">
             <div>
               <label className="text-sm font-medium">顧客</label>
               <Select value={customerId} onValueChange={setCustomerId}>
@@ -139,15 +139,15 @@ export default function NewOrderPage() {
       {/* Step 2: Equipment Selection */}
       {step === 2 && (
         <Card>
-          <CardHeader>
-            <CardTitle>Step 2: 機材選択</CardTitle>
+          <CardHeader className="pb-3 sm:pb-6">
+            <CardTitle className="text-base sm:text-xl">Step 2: 機材選択</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid gap-4 md:grid-cols-4">
-              <div className="md:col-span-2">
-                <label className="text-sm font-medium">機材</label>
+          <CardContent className="space-y-4 px-3 sm:px-6">
+            <div className="grid gap-3 sm:gap-4 grid-cols-2 sm:grid-cols-4">
+              <div className="col-span-2">
+                <label className="text-xs sm:text-sm font-medium">機材</label>
                 <Select value={selectedEquipment} onValueChange={setSelectedEquipment}>
-                  <SelectTrigger className="mt-1">
+                  <SelectTrigger className="mt-1 text-sm">
                     <SelectValue placeholder="機材を選択..." />
                   </SelectTrigger>
                   <SelectContent>
@@ -160,61 +160,62 @@ export default function NewOrderPage() {
                 </Select>
               </div>
               <div>
-                <label className="text-sm font-medium">数量</label>
+                <label className="text-xs sm:text-sm font-medium">数量</label>
                 <Input
                   type="number"
                   value={quantity}
                   onChange={(e) => setQuantity(Number(e.target.value))}
                   min={1}
-                  className="mt-1"
+                  className="mt-1 text-sm"
                 />
               </div>
               <div>
-                <label className="text-sm font-medium">日数</label>
+                <label className="text-xs sm:text-sm font-medium">日数</label>
                 <Input
                   type="number"
                   value={days}
                   onChange={(e) => setDays(Number(e.target.value))}
                   min={1}
-                  className="mt-1"
+                  className="mt-1 text-sm"
                 />
               </div>
             </div>
-            <Button onClick={addItem} disabled={!selectedEquipment} variant="outline">
+            <Button onClick={addItem} disabled={!selectedEquipment} variant="outline" className="text-sm">
               <Plus className="mr-2 h-4 w-4" />
               品目を追加
             </Button>
 
             {orderItems.length > 0 && (
-              <div className="rounded-md border">
+              <div className="rounded-md border overflow-x-auto -mx-3 sm:mx-0">
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>機材名</TableHead>
-                      <TableHead className="text-right">単価/日</TableHead>
-                      <TableHead className="text-right">数量</TableHead>
-                      <TableHead className="text-right">日数</TableHead>
-                      <TableHead className="text-right">小計</TableHead>
-                      <TableHead className="w-[50px]" />
+                      <TableHead className="text-xs sm:text-sm whitespace-nowrap">機材名</TableHead>
+                      <TableHead className="text-right text-xs sm:text-sm whitespace-nowrap hidden sm:table-cell">単価/日</TableHead>
+                      <TableHead className="text-right text-xs sm:text-sm whitespace-nowrap">数量</TableHead>
+                      <TableHead className="text-right text-xs sm:text-sm whitespace-nowrap">日数</TableHead>
+                      <TableHead className="text-right text-xs sm:text-sm whitespace-nowrap">小計</TableHead>
+                      <TableHead className="w-[40px] sm:w-[50px]" />
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {orderItems.map((item, index) => (
                       <TableRow key={index}>
-                        <TableCell>{item.equipmentName}</TableCell>
-                        <TableCell className="text-right">¥{item.dailyRate.toLocaleString()}</TableCell>
-                        <TableCell className="text-right">{item.quantity}</TableCell>
-                        <TableCell className="text-right">{item.days}</TableCell>
-                        <TableCell className="text-right">
+                        <TableCell className="text-xs sm:text-sm">{item.equipmentName}</TableCell>
+                        <TableCell className="text-right text-xs sm:text-sm hidden sm:table-cell">¥{item.dailyRate.toLocaleString()}</TableCell>
+                        <TableCell className="text-right text-xs sm:text-sm">{item.quantity}</TableCell>
+                        <TableCell className="text-right text-xs sm:text-sm">{item.days}</TableCell>
+                        <TableCell className="text-right text-xs sm:text-sm whitespace-nowrap">
                           ¥{(item.dailyRate * item.quantity * item.days).toLocaleString()}
                         </TableCell>
-                        <TableCell>
+                        <TableCell className="p-1 sm:p-2">
                           <Button
                             variant="ghost"
                             size="icon"
+                            className="h-7 w-7 sm:h-8 sm:w-8"
                             onClick={() => removeItem(index)}
                           >
-                            <Trash2 className="h-4 w-4 text-destructive" />
+                            <Trash2 className="h-3 w-3 sm:h-4 sm:w-4 text-destructive" />
                           </Button>
                         </TableCell>
                       </TableRow>
@@ -225,10 +226,10 @@ export default function NewOrderPage() {
             )}
 
             <div className="flex justify-between">
-              <Button variant="outline" onClick={() => setStep(1)}>
+              <Button variant="outline" onClick={() => setStep(1)} className="text-sm">
                 戻る
               </Button>
-              <Button onClick={() => setStep(3)} disabled={orderItems.length === 0}>
+              <Button onClick={() => setStep(3)} disabled={orderItems.length === 0} className="text-sm">
                 次へ
               </Button>
             </div>
@@ -239,49 +240,50 @@ export default function NewOrderPage() {
       {/* Step 3: Confirmation */}
       {step === 3 && (
         <Card>
-          <CardHeader>
-            <CardTitle>Step 3: 確認・送信</CardTitle>
+          <CardHeader className="pb-3 sm:pb-6">
+            <CardTitle className="text-base sm:text-xl">Step 3: 確認・送信</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="grid gap-4 md:grid-cols-2">
-              <div>
-                <h3 className="font-medium mb-2">顧客情報</h3>
-                <p className="text-sm">{selectedCustomer?.name}</p>
-                <p className="text-sm text-muted-foreground">{siteName}</p>
-                <p className="text-sm text-muted-foreground">{siteAddress}</p>
-              </div>
+          <CardContent className="space-y-4 sm:space-y-6 px-3 sm:px-6">
+            <div>
+              <h3 className="font-medium mb-2 text-sm sm:text-base">顧客情報</h3>
+              <p className="text-sm">{selectedCustomer?.name}</p>
+              <p className="text-xs sm:text-sm text-muted-foreground">{siteName}</p>
+              <p className="text-xs sm:text-sm text-muted-foreground">{siteAddress}</p>
             </div>
 
             <div>
-              <h3 className="font-medium mb-2">注文内容</h3>
-              <div className="rounded-md border">
+              <h3 className="font-medium mb-2 text-sm sm:text-base">注文内容</h3>
+              <div className="rounded-md border overflow-x-auto -mx-3 sm:mx-0">
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>機材名</TableHead>
-                      <TableHead className="text-right">単価/日</TableHead>
-                      <TableHead className="text-right">数量</TableHead>
-                      <TableHead className="text-right">日数</TableHead>
-                      <TableHead className="text-right">小計</TableHead>
+                      <TableHead className="text-xs sm:text-sm whitespace-nowrap">機材名</TableHead>
+                      <TableHead className="text-right text-xs sm:text-sm whitespace-nowrap hidden sm:table-cell">単価/日</TableHead>
+                      <TableHead className="text-right text-xs sm:text-sm whitespace-nowrap">数量</TableHead>
+                      <TableHead className="text-right text-xs sm:text-sm whitespace-nowrap">日数</TableHead>
+                      <TableHead className="text-right text-xs sm:text-sm whitespace-nowrap">小計</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {orderItems.map((item, index) => (
                       <TableRow key={index}>
-                        <TableCell>{item.equipmentName}</TableCell>
-                        <TableCell className="text-right">¥{item.dailyRate.toLocaleString()}</TableCell>
-                        <TableCell className="text-right">{item.quantity}</TableCell>
-                        <TableCell className="text-right">{item.days}</TableCell>
-                        <TableCell className="text-right">
+                        <TableCell className="text-xs sm:text-sm">{item.equipmentName}</TableCell>
+                        <TableCell className="text-right text-xs sm:text-sm hidden sm:table-cell">¥{item.dailyRate.toLocaleString()}</TableCell>
+                        <TableCell className="text-right text-xs sm:text-sm">{item.quantity}</TableCell>
+                        <TableCell className="text-right text-xs sm:text-sm">{item.days}</TableCell>
+                        <TableCell className="text-right text-xs sm:text-sm whitespace-nowrap">
                           ¥{(item.dailyRate * item.quantity * item.days).toLocaleString()}
                         </TableCell>
                       </TableRow>
                     ))}
                     <TableRow>
-                      <TableCell colSpan={4} className="text-right font-bold">
+                      <TableCell colSpan={3} className="text-right font-bold text-xs sm:text-sm sm:hidden">
                         合計
                       </TableCell>
-                      <TableCell className="text-right font-bold">
+                      <TableCell colSpan={4} className="text-right font-bold text-xs sm:text-sm hidden sm:table-cell">
+                        合計
+                      </TableCell>
+                      <TableCell className="text-right font-bold text-xs sm:text-sm whitespace-nowrap">
                         ¥{totalAmount.toLocaleString()}
                       </TableCell>
                     </TableRow>
@@ -291,10 +293,10 @@ export default function NewOrderPage() {
             </div>
 
             <div className="flex justify-between">
-              <Button variant="outline" onClick={() => setStep(2)}>
+              <Button variant="outline" onClick={() => setStep(2)} className="text-sm">
                 戻る
               </Button>
-              <Button className="bg-[hsl(var(--primary))]">
+              <Button className="bg-[hsl(var(--primary))] text-sm">
                 注文を送信
               </Button>
             </div>

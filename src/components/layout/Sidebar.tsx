@@ -15,10 +15,12 @@ import {
   ChevronRight,
   PanelLeftClose,
   PanelLeft,
+  X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Sheet, SheetContent } from "@/components/ui/sheet";
 
 type NavItem = {
   label: string;
@@ -81,7 +83,13 @@ const navItems: NavItem[] = [
   },
 ];
 
-export function Sidebar() {
+interface SidebarProps {
+  isMobile?: boolean;
+  isOpen?: boolean;
+  onClose?: () => void;
+}
+
+function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
   const [expandedItems, setExpandedItems] = useState<string[]>(["機材管理", "受発注", "物流", "顧客管理", "営業支援"]);
@@ -96,17 +104,23 @@ export function Sidebar() {
   const isParentActive = (children?: { href: string }[]) =>
     children?.some((child) => pathname === child.href);
 
+  const handleLinkClick = () => {
+    if (onNavigate) {
+      onNavigate();
+    }
+  };
+
   return (
     <aside
       className={cn(
-        "flex flex-col border-r border-border bg-card transition-all duration-300",
+        "flex h-full flex-col border-r border-border bg-card transition-all duration-300",
         collapsed ? "w-16" : "w-60"
       )}
     >
       {/* Logo */}
       <div className="flex h-16 items-center justify-between border-b border-border px-4">
         {!collapsed && (
-          <Link href="/dashboard" className="flex items-center gap-2">
+          <Link href="/dashboard" className="flex items-center gap-2" onClick={handleLinkClick}>
             <div className="flex h-8 w-8 items-center justify-center rounded bg-[hsl(var(--primary))] text-white font-bold text-sm">
               TKK
             </div>
@@ -117,7 +131,7 @@ export function Sidebar() {
           variant="ghost"
           size="icon"
           onClick={() => setCollapsed(!collapsed)}
-          className="h-8 w-8"
+          className="h-8 w-8 hidden lg:flex"
         >
           {collapsed ? (
             <PanelLeft className="h-4 w-4" />
@@ -140,6 +154,7 @@ export function Sidebar() {
                 {item.href ? (
                   <Link
                     href={item.href}
+                    onClick={handleLinkClick}
                     className={cn(
                       "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
                       active
@@ -179,6 +194,7 @@ export function Sidebar() {
                           <Link
                             key={child.href}
                             href={child.href}
+                            onClick={handleLinkClick}
                             className={cn(
                               "block rounded-lg px-3 py-2 text-sm transition-colors",
                               isActive(child.href)
@@ -200,4 +216,18 @@ export function Sidebar() {
       </ScrollArea>
     </aside>
   );
+}
+
+export function Sidebar({ isMobile, isOpen, onClose }: SidebarProps) {
+  if (isMobile) {
+    return (
+      <Sheet open={isOpen} onOpenChange={onClose}>
+        <SheetContent side="left" className="w-60 p-0">
+          <SidebarContent onNavigate={onClose} />
+        </SheetContent>
+      </Sheet>
+    );
+  }
+
+  return <SidebarContent />;
 }

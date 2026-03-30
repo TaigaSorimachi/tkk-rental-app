@@ -30,23 +30,23 @@ export default function InventoryPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <Card>
-        <CardHeader>
-          <CardTitle>在庫状況マトリクス（拠点×カテゴリ）</CardTitle>
+        <CardHeader className="pb-3 sm:pb-6">
+          <CardTitle className="text-lg sm:text-xl">在庫状況マトリクス（拠点×カテゴリ）</CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="overflow-x-auto">
-            <Table>
+        <CardContent className="px-3 sm:px-6">
+          <div className="overflow-x-auto -mx-3 px-3 sm:mx-0 sm:px-0">
+            <Table className="min-w-[700px]">
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[180px]">拠点</TableHead>
+                  <TableHead className="w-[100px] sm:w-[180px] text-xs sm:text-sm whitespace-nowrap">拠点</TableHead>
                   {categories.map((cat) => (
-                    <TableHead key={cat.id} className="text-center">
+                    <TableHead key={cat.id} className="text-center text-xs sm:text-sm whitespace-nowrap">
                       {cat.name.split("・")[0]}
                     </TableHead>
                   ))}
-                  <TableHead className="text-center font-bold">合計</TableHead>
+                  <TableHead className="text-center font-bold text-xs sm:text-sm whitespace-nowrap">合計</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -56,14 +56,14 @@ export default function InventoryPage() {
 
                   return (
                     <TableRow key={loc.id}>
-                      <TableCell className="font-medium">{loc.name}</TableCell>
+                      <TableCell className="font-medium text-xs sm:text-sm whitespace-nowrap">{loc.name}</TableCell>
                       {categoryKeys.map((key) => {
                         const cellData = locData[key];
                         return (
                           <TableCell
                             key={key}
                             className={cn(
-                              "text-center",
+                              "text-center text-xs sm:text-sm",
                               getCellStyle(cellData.rented, cellData.total)
                             )}
                           >
@@ -71,7 +71,7 @@ export default function InventoryPage() {
                           </TableCell>
                         );
                       })}
-                      <TableCell className="text-center font-bold">
+                      <TableCell className="text-center font-bold text-xs sm:text-sm">
                         {total.rented}/{total.total}
                       </TableCell>
                     </TableRow>
@@ -80,14 +80,15 @@ export default function InventoryPage() {
               </TableBody>
             </Table>
           </div>
+          <p className="text-xs text-muted-foreground mt-3 sm:hidden">← 横スクロールで全カテゴリを表示</p>
 
-          <div className="mt-6 flex items-center gap-6 text-sm">
+          <div className="mt-4 sm:mt-6 flex flex-wrap items-center gap-3 sm:gap-6 text-xs sm:text-sm">
             <div className="flex items-center gap-2">
-              <div className="h-4 w-4 rounded bg-red-100 border border-red-200" />
+              <div className="h-3 w-3 sm:h-4 sm:w-4 rounded bg-red-100 border border-red-200" />
               <span>在庫率20%以下</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="h-4 w-4 rounded bg-yellow-100 border border-yellow-200" />
+              <div className="h-3 w-3 sm:h-4 sm:w-4 rounded bg-yellow-100 border border-yellow-200" />
               <span>在庫率40%以下</span>
             </div>
             <div className="text-muted-foreground">
