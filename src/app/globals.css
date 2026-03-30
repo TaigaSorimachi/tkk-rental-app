@@ -1,26 +1,82 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* TKK Brand Colors */
+  --primary: 216 66% 33%;        /* #1B4D8E 紺青 */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 11 81% 51%;       /* #E63E1E 赤 */
+  --secondary-foreground: 0 0% 100%;
+
+  --background: 60 9% 96%;       /* #F5F5F0 */
+  --foreground: 0 0% 10%;        /* #1A1A1A */
+
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 10%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 10%;
+
+  --muted: 220 9% 92%;
+  --muted-foreground: 215 14% 45%;  /* #6B7280 */
+
+  --accent: 220 9% 92%;
+  --accent-foreground: 0 0% 10%;
+
+  --destructive: 0 72% 51%;      /* #DC2626 */
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 220 13% 91%;         /* #E5E7EB */
+  --input: 220 13% 91%;
+  --ring: 216 66% 33%;
+
+  /* Status Colors */
+  --success: 160 84% 39%;        /* #059669 */
+  --success-foreground: 0 0% 100%;
+  --warning: 38 92% 50%;         /* #D97706 */
+  --warning-foreground: 0 0% 100%;
+  --danger: 0 72% 51%;           /* #DC2626 */
+  --danger-foreground: 0 0% 100%;
+
+  --radius: 0.5rem;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-success: hsl(var(--success));
+  --color-warning: hsl(var(--warning));
+  --color-danger: hsl(var(--danger));
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius));
+  --radius-lg: calc(var(--radius) + 4px);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Table Zebra Striping */
+.table-zebra tr:nth-child(even) {
+  background-color: hsl(var(--muted) / 0.3);
 }
